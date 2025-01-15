@@ -68,7 +68,7 @@ end_date="YYYY-MM-DD"                # Data extraction end date (e.g., 2023-12-3
 
 ---
 
-### 5. **Use `.env-example` for Reference**
+#### **Use `.env-example` for Reference**
 
 A `.env-example` file is provided in the project for guidance. Copy it and rename it to `.env`:
 
