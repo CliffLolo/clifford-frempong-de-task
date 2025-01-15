@@ -25,29 +25,84 @@ The project consists of the following services:
 
 ### 1. Clone repository and start docker containers
 
-```shell
+```bash
 git clone 
 ```
 
 ### 2. Go to the project directory
-```shell
+```bash
 cd clifford-frempong-de-task/
 ```
 
-### 3. Run the docker compose file
-```shell
+### 3. **Create a `.env` File**
+
+In the root directory of the project, create a `.env` file. This file will securely store sensitive credentials and configuration settings required for the project.
+
+### 4. **Populate the `.env` File**
+
+Use the structure below to configure your environment variables:
+
+```bash
+# ==========================
+# API Configuration
+# ==========================
+API_KEY="your_api_key_here"           # New York Times API Key
+API_SECRET="your_api_secret_here"     # New York Times API Secret (if required)
+BASE_URL="https://api.nytimes.com/svc/books/v3/lists/overview.json"  # NYT API Base URL
+
+# ==========================
+# Database Configuration
+# ==========================
+DB_HOST="localhost"                       # Database Host (e.g., localhost or IP address)
+DB_PORT="5432"                            # Database Port (default for PostgreSQL is 5432)
+DB_USER="your_db_username"                # Database Username
+DB_PASSWORD="your_db_password"            # Database Password
+DB_NAME="your_database_name"              # Database Name
+
+# ==========================
+# Data Extraction Settings
+# ==========================
+start_date="YYYY-MM-DD"              # Data extraction start date (e.g., 2021-01-01)
+end_date="YYYY-MM-DD"                # Data extraction end date (e.g., 2023-12-31)
+```
+
+---
+
+### 5. **Use `.env-example` for Reference**
+
+A `.env-example` file is provided in the project for guidance. Copy it and rename it to `.env`:
+
+```bash
+cp .env-example .env
+```
+
+Then, update it with your actual credentials.
+
+---
+
+#### **Security Notice**
+
+⚠️ **Important:**  
+Ensure the `.env` file is **NOT** committed to version control. The `.gitignore` file should already exclude `.env`, but double-check to prevent accidental exposure of sensitive information.
+
+```bash
+# .gitignore
+.env
+```
+### 6. Run the docker compose file
+```bash
 docker-compose up -d
 ```
 
-### 4. Check the command to check if all components are up and running
+### 7. Check the command to check if all components are up and running
 
-```shell
+```bash
 docker compose ps
 ```
 
 If all is well, you'll have everything running in their own containers, with a load generator script configured to load data from 2021-2023 into the postgres db
 
-### 5. Verify PostgreSQL data
+### 8. Verify PostgreSQL data
 Access the [Postgres UI](http://localhost:7775/?pgsql=postgres&username=postgres&db=nyt_db&ns=public) and confirm the presence of 7 tables **dim_book**, **dim_date**, **dim_list**, **dim_publisher**, **fact_book_rankings**, **fact_publisher_performance** and **load_status** with data in them. Use "**postgres**" as the username and password when logging in.
 ![Image](https://github.com/user-attachments/assets/a864c445-42af-44cb-8f35-a5d772c673cf)
 ![Image](https://github.com/user-attachments/assets/7f056822-eb01-4637-b196-70222f9eab46)
@@ -104,7 +159,7 @@ Access the [Postgres UI](http://localhost:7775/?pgsql=postgres&username=postgres
 **description:**
 
 
-```shell
+```bash
 WITH consecutive_rankings AS (
     SELECT 
         b.title,
@@ -135,7 +190,7 @@ rankings for the entirety of the data?
 **description:**
 
 
-```shell
+```bash
 SELECT 
     l.list_name,
     COUNT(DISTINCT b.book_key) as unique_books_count
@@ -155,7 +210,7 @@ publishers from 2021 to 2023, getting only the top 5 for each quarter.
 
 
 
-```shell
+```bash
 WITH publisher_points AS (
     SELECT 
         p.publisher_key,
@@ -210,7 +265,7 @@ what book in 2023?
 
 
 
-```shell
+```bash
 WITH team_books AS (
     SELECT 
         b.title,
@@ -249,19 +304,19 @@ ORDER BY full_date, list_name;
 Each service operates within its own container, enabling isolation of any issues that may arise. This ensures that if one component encounters a problem, it won't affect the functioning of the others.
 
 ### Restart Policies:
-Restart policies are configured for most services to automatically restart in case of failures. Whether it's `restart: always` or `restart: on-failure`, these policies help maintain service availability by quickly recovering from unexpected downtime.
+
 
 ### Error Handling:
-Error handling and retry mechanisms are implemented within the Kafka Connect configuration. For instance, the frequency of offset flushing to persistent storage is controlled, reducing the risk of data loss during failures.
+
 
 ### Monitoring:
-Monitoring capabilities are set up for critical services like Kafka to closely monitor the health of the pipeline. This allows for proactive identification of issues and prompt resolution to minimize downtime.
+
 
 ### Redundancy and Replication:
-Kafka's replication factor ensures data redundancy, while Debezium captures database changes redundantly to prevent potential data loss. Additionally, ClickHouse can be configured for replication and high availability, enhancing data durability and ensuring continuous availability.
+
 
 ### Side note :)
-Regular backups of critical databases like Postgres and ClickHouse are essential for recovering from catastrophic failures and ensuring data integrity.
+
 
 
 ---
