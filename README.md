@@ -113,34 +113,30 @@ Access the [Postgres UI](http://localhost:7775/?pgsql=postgres&username=postgres
 1. In a browser, go to [Metabase UI](http://localhost:3000)
 
 2. Click **Let's get started**.
+
 ![Image](https://github.com/user-attachments/assets/7e4f0971-c203-433c-9266-95541d094b90)
 
 3. Complete the first set of fields asking for your email address. This
-   information isn't crucial for anything but does have to be filled in.
+   information isn't crucial for anything but does have to be filled in
+
 ![Image](https://github.com/user-attachments/assets/99d12eb0-a946-4930-ac30-77a380999f8e)
 
 4. On the **Add your data** page, select Postgres and fill in the following information:
-![Image](https://github.com/user-attachments/assets/a0803106-7c1d-47cf-97b4-458422694b31)
 
-   | Field             | Enter...                        |
-   | ----------------- | ------------------------------- |
-   | Database          | **nyt_db**                  |
-   | Name              | **DeelCompanyDB**              |
-   | Host              | **postgres**           |
-   | Port              | **5432**                        |
-   | Database name     | **nyt_db**                     |
-   | Database username | **postgres**                     |
-   | Database password | **postgres**        |
+![Image](https://github.com/user-attachments/assets/a0803106-7c1d-47cf-97b4-458422694b31)
 
 ![Image](https://github.com/user-attachments/assets/2e75c256-429b-4432-a4d8-a78c53b86b1e)
 
-5. Proceed past the screens until you reach your primary dashboard.
+5. Proceed past the screens until you reach your primary dashboard
+
 ![Image](https://github.com/user-attachments/assets/c11c30ff-4c84-4e71-b790-6dec5e8e568e)
 
 6. Click **New**
+
 ![Image](https://github.com/user-attachments/assets/40646b3f-620c-45f9-bdf5-870746ef75f1)
 
-7. Click **SQL query**.
+7. Click **SQL query**
+
 ![Image](https://github.com/user-attachments/assets/dd86b77d-dc4a-40eb-92e7-d3377c71420a)
 
 8. From **Select a database**, select **DeelCompanyDB**.
