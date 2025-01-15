@@ -19,7 +19,9 @@ The project consists of the following services:
 ### Required:
 * Postgres
 * Adminer
-* Metabase
+* Metabase (Analytics)
+* Prometheus (Monitoring)
+* Grafana (Visualization)
 
 ## Run Locally
 
@@ -58,6 +60,12 @@ DB_PORT="5432"                            # Database Port (default for PostgreSQ
 DB_USER="your_db_username"                # Database Username
 DB_PASSWORD="your_db_password"            # Database Password
 DB_NAME="your_database_name"              # Database Name
+
+# ==========================
+# Grafana Configuration
+# ==========================
+GF_USER="your_db_username"                # Grafana Username
+GF_PASSWORD="your_db_password"            # Grafana Password
 
 # ==========================
 # Data Extraction Settings
@@ -99,6 +107,7 @@ docker-compose up -d
 ```bash
 docker compose ps
 ```
+<img width="1100" alt="Image" src="https://github.com/user-attachments/assets/f4e06aee-8374-4a9b-8191-3bb1ebb90a53" />
 
 If all is well, you'll have everything running in their own containers, with a load generator script configured to load data from 2021-2023 into the postgres db
 
@@ -294,6 +303,71 @@ FROM team_books
 WHERE first_appearance = 1
 ORDER BY full_date, list_name;
 ```
+
+---
+
+## Monitoring: Prometheus and Grafana
+
+### 1. **Prometheus (Metrics Collection)**
+Prometheus collects metrics from PostgreSQL via the Postgres Exporter. Access Prometheus at:
+
+- [http://localhost:9090](http://localhost:9090)
+
+![Image](https://github.com/user-attachments/assets/68fee5b7-7147-4df8-91fc-4e7064bca2d6)
+
+Check under **Status → Target Health** to ensure PostgreSQL metrics are being scraped.
+![Image](https://github.com/user-attachments/assets/737b6a60-946a-478f-83ba-51331a7baadc)
+![Image](https://github.com/user-attachments/assets/1b87a146-788f-4b59-9aa6-2a49e35b5dbc)
+
+### 2. **Grafana (Metrics Visualization)**
+Grafana visualizes metrics collected by Prometheus. Access Grafana at:
+
+- [http://localhost:3001](http://localhost:3001)
+
+**Login Credentials:**
+- **Username:** `admin`
+- **Password:** `admin`
+
+![Image](https://github.com/user-attachments/assets/210ed78c-379d-4efa-af54-535baee31a2f)
+
+### 3. **Configure Grafana Data Source**
+
+1. Log in to Grafana
+2. Navigate to **Connections → Data Sources → Add Data Source**
+
+![Image](https://github.com/user-attachments/assets/14f61867-f048-471d-9031-9899f0af2277)
+
+3. Select **Prometheus**
+
+![Image](https://github.com/user-attachments/assets/a50266ac-7862-43a3-ad2e-40ddc697fdec)
+
+4. Set the URL to:
+   ```
+   http://prometheus:9090
+   ```
+
+   ![Image](https://github.com/user-attachments/assets/da3822e7-322a-4b43-b44c-1a3383ebe822)
+
+5. Click **Save & Test**
+
+![Image](https://github.com/user-attachments/assets/d3e698b4-7758-4c87-9d6e-635b72bb72cb)
+
+### 4. **Import PostgreSQL Monitoring Dashboard**
+1. Go to **Dashboards → Import**
+
+![Image](https://github.com/user-attachments/assets/04b6a893-76ff-4ebd-9b60-90beaa0bee2a)
+
+2. Enter Dashboard ID `9628`
+3. Set **Prometheus** as the data source
+
+![Image](https://github.com/user-attachments/assets/6fb643a4-ab64-4efe-8314-891d7e2bf0ae)
+
+4. Visualize PostgreSQL performance metrics!
+![Image](https://github.com/user-attachments/assets/add736cb-8255-4767-bb3d-738959c431f0)
+
+---
+
+
 ## Pipeline Resilience Strategies
 
 ### Fault Isolation:
