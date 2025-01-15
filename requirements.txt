@@ -6,3 +6,5 @@ python-dotenv==1.0.1
 PyYAML==6.0.2
 requests==2.32.3
 urllib3==2.3.0
+marquez-python==0.50.0
+pytz==2024.2

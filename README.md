@@ -6,7 +6,7 @@
 
 ### Schema Diagram
 
-
+<img width="471" alt="Image" src="https://github.com/user/assets/bdc5fad2-efc1-400f-9e38-fd04fcf5350d" />
 
 ## Prerequisites
 * Docker
@@ -72,6 +72,12 @@ GF_PASSWORD="your_db_password"            # Grafana Password
 # ==========================
 start_date="YYYY-MM-DD"              # Data extraction start date (e.g., 2021-01-01)
 end_date="YYYY-MM-DD"                # Data extraction end date (e.g., 2023-12-31)
+
+
+# ==========================
+# Marquez Settings
+# ==========================
+MARQUEZ_NAMESPACE="namespace for marqueez"         # Marqueez namespace
 ```
 
 ---
@@ -99,7 +105,7 @@ Ensure the `.env` file is **NOT** committed to version control. The `.gitignore`
 ```
 ### 6. Run the docker compose file
 ```bash
-docker-compose up -d
+docker-compose up -build
 ```
 
 ### 7. Check the command to check if all components are up and running
@@ -373,19 +379,11 @@ Grafana visualizes metrics collected by Prometheus. Access Grafana at:
 ### Fault Isolation:
 Each service operates within its own container, enabling isolation of any issues that may arise. This ensures that if one component encounters a problem, it won't affect the functioning of the others.
 
-### Restart Policies:
-
-
-### Error Handling:
-
-
-### Monitoring:
-
-
-### Redundancy and Replication:
-
 
 ### Side note :)
+Data Lineage Tracking with OpenLineage
+
+Metadata Management & Visualization with Marquez
 
 
 

@@ -101,6 +101,27 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${GF_PASSWORD}
     restart: always
 
+  marquez:
+    image: marquezproject/marquez:latest
+    container_name: marquez
+    ports:
+      - "5002:5000"
+    environment:
+      - MARQUEZ_DB_USER=postgres
+      - MARQUEZ_DB_PASSWORD=postgres
+      - MARQUEZ_DB_HOST=postgres
+      - MARQUEZ_DB_PORT=5432
+      - MARQUEZ_NAMESPACE=etl_pipeline
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/api/v1/namespaces"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   db_data:
   grafana_data:

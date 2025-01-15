@@ -114,3 +114,8 @@ CREATE TABLE IF NOT EXISTS load_status (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (requested_date, bestsellers_date)
 );
+
+
+CREATE USER marquez WITH PASSWORD 'marquez';
+CREATE DATABASE marquez OWNER marquez;
+GRANT ALL PRIVILEGES ON DATABASE marquez TO marquez;
